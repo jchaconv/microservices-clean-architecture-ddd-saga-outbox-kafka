@@ -1,0 +1,106 @@
+************************
+SECCION 1 : INTRODUCCION
+************************
+
+excalidraw.com → para hacer diagramas
+
+- Microservicios:
+
+* Desarrollo y deploy independientes por distintos equipos
+* Fácil de hacer auto-scaling
+* Mejor aislamiento de fallos
+* Permite el uso de distintas tecnologías para cada servicio
+
+Se necesitan patrones y tecnologías correctos para la orquestación y el management
+de las transacciones y comunicación entre servicios.
+
+- Arquitectura Hexagonal:
+
+* Aisla el domain logic de otras dependencias
+* Usa dependency inversion
+* Conocida como Ports & Adapters
+
+- DDD
+
+* Domain Driven Design
+* Domain model con Aggregates, Entities, Value objects, Services(Domain & Application) y Events
+
+- Kafka
+
+* Para patrones como SAGA y CQRS
+
+
+********************************************************
+SECCION 2 - CLEAN ARCHITECTURE Y HEXAGONAL ARCHITECTURE
+********************************************************
+
+Crear proyecto de maven simple desde intellij
+
+name: food-ordering-system
+group-id: com.food.ordering.system
+
+Borrar el folder /src
+
+Editar el pom.xml:
+- <relativePath/> Usar así para parents locales
+- <maven-compiler-plugin.version> para la versión del compiler
+- agregar el plugin del compiler
+
+
+Click derecho en el project food-ordering-system -> create module
+name: order-service  (CLEAN ARCHITECTURE)
+eliminar /src
+
+Click derecho en el project order-service -> create module
+
+!Asegurarse que el parent sea order-service
+
+order-application
+order-container
+order-dataaccess
+order-domain
+order-messaging
+
+En todos los poms de estos módulos creados borrar <maven.compiler.source> dejar el <properties>
+vacío porque ya tomará esa propiedad del pom principal
+
+En order-domain borrar /src y crear dos modulos:
+!Asegurarse que el parent sea order-domain:
+order-application-service
+order-domain-core   → no debe llevar dependencias porque debe ser el más independiente por tener la lógica de negocio
+
+En todos los poms de estos módulos creados borrar <maven.compiler.source> dejar el <properties>
+vacío porque ya tomará esa propiedad del pom principal
+
+
+En el pom.xml principal agregar dependencias(definir los módulos para poder ser usados entre ellos) en el <dependencyManagement>
+
+order-application
+order-container (no se agregó, no es necesario)
+order-dataaccess
+order-domain (en lugar de este se agregaron para los submodulos)
+order-messaging
+
+
+En el pom.xml de:
+
+- order-application-service agregar dependency para order-domain-core
+- order-dataaccess agregar dependency para order-application-service
+- order-messaging agregar dependency para order-application-service
+- order-application agregar dependency para order-application-service
+- order-container agregar dependency para todos los modulos(en lugar de order-domain agregar submodulos)
+
+Ejecutar: mvn clean install
+
+Software para diagrama automático(descargar 64 bits):
+https://graphviz.org/download
+
+Agregar ruta al path. Ejemplo: D:\Graphviz\bin
+
+Ver comandos:
+https://github.com/ferstl/depgraph-maven-plugin
+
+Ejecutar:
+mvn com.github.ferstl:depgraph-maven-plugin:aggregate -DcreateImage=true -DreduceEdges=false -Dscope=compile "-Dincludes=com.food.ordering.system*:*"
+
+Ver en food-ordering-system/target/dependency-graph.png ... interesante!
