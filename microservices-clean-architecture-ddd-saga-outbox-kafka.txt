@@ -104,3 +104,70 @@ Ejecutar:
 mvn com.github.ferstl:depgraph-maven-plugin:aggregate -DcreateImage=true -DreduceEdges=false -Dscope=compile "-Dincludes=com.food.ordering.system*:*"
 
 Ver en food-ordering-system/target/dependency-graph.png ... interesante!
+
+***************************************
+SECCION 3 - DOMAIN DRIVEN DESIGN (DDD)
+***************************************
+
+Click derecho en el project food-ordering-system -> create module
+nombre: common
+borrar /src
+
+Crear submodulo: common-domain y borrar las properties para quedar sin maven-compiler
+
+Agregar como dependencia el common-domain en los pom's de:
+
+* food-ordering-system (principal)
+* order-domain-core
+
+En common-domain crear el sgte arbol de directorios dentro del package base:
+
+/domain/entity/BaseEntity
+/domain/entity/AggregateRoot
+
+/domain/valueobject/BaseId
+/domain/valueobject/OrderId
+/domain/valueobject/Money
+/domain/valueobject/OrderStatus
+/domain/valueobject/ProductId
+/domain/valueobject/RestaurantId
+/domain/valueobject/CustomerId
+
+/domain/event/DomainEvent.java
+
+*****************************
+
+En order-domain-core:
+
+Crear el arbol de directorios así:
+
+com.food.ordering.system.order.service.domain
+
+entity
+    /AggregateRoot (si no reconoce la clase del otro módulo darle maven reload)
+    /OrderItem (Como el constructor es privado se necesita Builder. Instalar el plugin InnerBuilder. 
+                Alt+ins escoger builder, escoger todos los campos menos orderId y marcar los dos primeros checkbox.
+                Reemplazar el id con error por OrderItemId)
+    /Product
+
+event
+
+exception
+
+valueobject
+    /StreetAddress
+    /OrderItemId
+    /TrackingId
+
+
+
+*
+
+
+
+
+
+
+
+
+
