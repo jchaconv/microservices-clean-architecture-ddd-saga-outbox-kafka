@@ -10,8 +10,6 @@ import org.springframework.validation.annotation.Validated;
 @Service
 public class PaymentResponseListenerImpl implements PaymentResponseListener {
 
-
-
     @Override
     public void paymentCompleted(PaymentResponse paymentResponse) {
 

@@ -34,7 +34,6 @@ public class OrderTrackCommandHandler {
             throw new OrderNotFoundException("Could not find order with tracking id: " +
                     trackOrderQuery.getOrderTrackingId());
         }
-
         return orderDataMapper.orderToTrackOrderResponse(orderResult.get());
     }
 
