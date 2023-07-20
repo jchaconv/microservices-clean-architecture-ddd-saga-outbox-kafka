@@ -163,3 +163,7 @@ En el pom.xml de order-application-service agregar:
 Tuve que reducir los nombres de interfaces porque git no los aceptaba
 
 
+
+Ejecutar:
+git checkout -b publish-event-option-1
+
