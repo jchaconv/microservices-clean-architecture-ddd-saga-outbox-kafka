@@ -1,13 +1,20 @@
 package com.food.ordering.system.order.service.domain.entity;
 
 import com.food.ordering.system.domain.entity.AggregateRoot;
+import com.food.ordering.system.domain.valueobject.CustomerId;
 import com.food.ordering.system.domain.valueobject.RestaurantId;
 
 import java.util.List;
 
-public class Customer extends AggregateRoot<RestaurantId> {
+public class Customer extends AggregateRoot<CustomerId> {
+    public Customer() {
+    }
 
-    private final List<Product> products;
+    public Customer(CustomerId customerId) {
+        super.setId(customerId);
+    }
+
+    /*private final List<Product> products;
     private boolean active;
 
     private Customer(Builder builder) {
@@ -55,5 +62,5 @@ public class Customer extends AggregateRoot<RestaurantId> {
         public Customer build() {
             return new Customer(this);
         }
-    }
+    }*/
 }
