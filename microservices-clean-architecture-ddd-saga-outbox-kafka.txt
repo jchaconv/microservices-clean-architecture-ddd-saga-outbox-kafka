@@ -143,31 +143,23 @@ Crear el arbol de directorios así:
 
 com.food.ordering.system.order.service.domain
 
-entity
-    /AggregateRoot (si no reconoce la clase del otro módulo darle maven reload)
-    /OrderItem (Como el constructor es privado se necesita Builder. Instalar el plugin InnerBuilder. 
+/OrderItem (Como el constructor es privado se necesita Builder. Instalar el plugin InnerBuilder. 
                 Alt+ins escoger builder, escoger todos los campos menos orderId y marcar los dos primeros checkbox.
                 Reemplazar el id con error por OrderItemId)
-    /Product
 
-event
+*************************************
 
-exception
+Agregar lógica en :
+Order
+OrderItem, etc
 
-valueobject
-    /StreetAddress
-    /OrderItemId
-    /TrackingId
+Agregar Lombok y logging en el pom principal
 
+En el pom.xml de order-application-service agregar:
+-common-domain
+-validation → Para usar anotaciones como @NotNull @Max(value=10) @Valid
+-spring-tx
 
-
-*
-
-
-
-
-
-
-
+Tuve que reducir los nombres de interfaces porque git no los aceptaba
 
 
