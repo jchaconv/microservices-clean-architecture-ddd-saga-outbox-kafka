@@ -167,3 +167,80 @@ Tuve que reducir los nombres de interfaces porque git no los aceptaba
 Ejecutar:
 git checkout -b publish-event-option-1
 
+
+*************************
+SECCION 4 - APACHE KAFKA
+*************************
+
+
+Kafka en docker. Se usará docker compose
+
+En el proyecto principal crear nuevo modulo "infrastructure"
+Borrar las properties del pom y el /src
+Crear /docker-compose y dentro:
+
+.env
+common.yml
+zookeeper.yml
+kafka_cluster.yml
+init_kafka.yml
+/volumes/zookeeper/data
+/volumes/zookeeper/transactions
+/volumes/kafka/broker-1
+/volumes/kafka/broker-2
+/volumes/kafka/broker-3
+
+Desde el directorio docker-compose (Se le puede dar click derecho y abrir terminal) en intellij:
+
+docker-compose -f common.yml -f zookeeper.yml up
+
+En el directorio del proyecto principal:
+echo ruok | nc localhost 2181
+
+docker-compose -f common.yml -f kafka_cluster.yml up (en otra consola)
+docker-compose -f common.yml -f init_kafka.yml up (en otra consola)
+
+Entrar a localhost:9000 → Add cluster
+
+name: food-ordering-system-cluster
+hosts: zookeeper:2181
+
+Save → Go to cluster view
+
+Ver los indicadores y status de cada componente
+
+docker-compose -f common.yml -f zookeeper.yml down
+docker-compose -f common.yml -f kafka_cluster.yml down
+docker-compose -f common.yml -f init_kafka.yml down
+
+
+
+
+
+
+*************************************
+
+
+
+
+
+
+*************************************
+
+
+
+
+
+
+*************************************
+
+
+
+
+
+
+
+
+*************************************
+
+
