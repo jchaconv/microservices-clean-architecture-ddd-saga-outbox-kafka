@@ -274,12 +274,17 @@ Con estas clases se realiza toda la config para el producer de kafka.
 
 *************************************
 
+30. Implementing Kafka consumer generic module
+
+En el pom de kafka-consumer agregar dependencias.
+
+Crear el pkg kafka.consumer.config
 
 
+KafkaConsumer
+KafkaConsumerConfig
 
-
-
-
+Con estas dos clases está completa la config para el consumer de kafka
 
 *************************************
 
