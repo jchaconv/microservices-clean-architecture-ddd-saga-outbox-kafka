@@ -213,24 +213,64 @@ docker-compose -f common.yml -f zookeeper.yml down
 docker-compose -f common.yml -f kafka_cluster.yml down
 docker-compose -f common.yml -f init_kafka.yml down
 
+*************************************
+
+En el modulo "infrastructure" crear un nuevo modulo(ojo)
+y ponerle "kafka"
+
+El parent tiene que ser "infrastructure" Escoger bien
+
+Borrar /src y properties en el pom.xml
+
+Dentro del módulo kafka crear los submodulos y ponerles el parent "kafka":
+(borrar las properties del pom.xml)
+kafka-config-data
+kafka-consumer
+kafka-model
+kafka-producer
+
+Asegurar que el pom de kafka tenga esto:
+<packaging>pom</packaging>
+
+Y agregar las secciones de <repositories> y <dependencyManagement>
+
+En el pom principal, el de food-ordering-system, agregar las dependencias a los
+submodulos de kafka y las versiones en <properties> .
+
+Ahora en el pom de kafka agregar donde corresponda en los dependencies:
+${spring-kafka.version}
+${kafka-avro-serializer.version}
+${avro.version}
 
 
+Comenzamos a modificar kafka-config-data:
+
+En el pom agregar la dependencia de spring-boot-starter
+Crear los paquetes luego del base package kafka.config.data
+Se pegaron las clases descargadas en el package creado
 
 
+Modificar kafka-model:
+Agregar dependency de avro y sección de plugins
+Crear resources/avro/ y pegar los archivos avro descargables
+Ejecutar en este modulo mvn clean install
+Y así se crean las clases automáticamente en el package model
 
 *************************************
 
+En el pom de kafka-producer agregar dependencias.
+destacan la de kafka y avro
 
+Crear el paquete
+com.food.ordering.system.kafka.producer
+    exception
+    service
 
+KafkaProducerException
+KafkaProducerConfig
+KafkaProducer y KafkaProducerImpl
 
-
-
-*************************************
-
-
-
-
-
+Con estas clases se realiza toda la config para el producer de kafka.
 
 *************************************
 
